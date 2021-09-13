@@ -1,0 +1,38 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'MVVM_C' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for MVVM_C
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'RxDataSources'
+  pod 'RxGesture'
+  pod 'RxAppState'
+
+  pod 'SnapKit'
+  pod 'PinLayout'
+  pod 'FlexLayout'
+
+  pod 'IGListKit'
+
+  pod 'Alamofire'
+  pod 'SwiftLint'
+  pod 'Reveal-SDK', :configurations => ['Debug']
+
+  target 'MVVM_CTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'MVVM_CUITests' do
+    # Pods for testing
+  end
+
+end
+
+
+
+
