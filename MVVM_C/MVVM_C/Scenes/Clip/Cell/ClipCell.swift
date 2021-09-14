@@ -96,6 +96,7 @@ extension ClipCell {
             .define { flex in
                 flex.addItem()
                     .direction(.column)
+                    .grow(1)
                     .shrink(1)
                     .define { flex in
                         flex.addItem(self.nicknameLabel)
