@@ -4,14 +4,19 @@ import ProjectDescription
 public extension TargetDependency {
     static let alamofire: TargetDependency = .package(product: "Alamofire")
     static let kingfisher: TargetDependency = .package(product: "Kingfisher")
+
     static let rxSwift: TargetDependency = .package(product: "RxSwift")
     static let rxCocoa: TargetDependency = .package(product: "RxCocoa")
     static let reactorKit: TargetDependency = .package(product: "ReactorKit")
+
     static let snapKit: TargetDependency = .package(product: "SnapKit")
     static let pinLayout: TargetDependency = .package(product: "PinLayout")
     static let flexLayout: TargetDependency = .package(product: "FlexLayout")
     static let flexLayoutYoga: TargetDependency = .package(product: "FlexLayoutYoga")
     static let flexLayoutYogaKit: TargetDependency = .package(product: "FlexLayoutYogaKit")
+
+    static let nimble: TargetDependency = .package(product: "Nimble")
+    static let quick: TargetDependency = .package(product: "Quick")
 }
 
 
@@ -23,6 +28,8 @@ public extension Package {
     static let snapKit: Package = .package(url: "https://github.com/SnapKit/SnapKit.git", from: "5.0.0")
     static let pinLayout: Package = .package(url: "https://github.com/layoutBox/PinLayout.git", .upToNextMajor(from: "1.10.0"))
     static let flexLayout: Package = .package(url: "https://github.com/layoutBox/FlexLayout.git", .upToNextMajor(from: "1.3.0"))
+    static let nimble: Package = .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "9.2.1"))
+    static let quick: Package = .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "4.0.0"))
 }
 
 
@@ -60,6 +67,8 @@ extension Project {
                 .snapKit,
                 .pinLayout,
                 .flexLayout,
+                .nimble,
+                .quick
             ],
             targets: targets
         )
@@ -144,8 +153,24 @@ extension Project {
             infoPlist: .default,
             sources: ["\(name)/Tests/**"],
             dependencies: [
-                .target(name: "\(name)")
-            ]
+                .target(name: "\(name)"),
+                .nimble,
+                .quick
+            ],
+            settings: Settings.settings(configurations: [
+                .debug(
+                    name: "Debug",
+                    settings: [
+                        "GCC_PREPROCESSOR_DEFINITIONS" : ["DEBUG=1", "FLEXLAYOUT_SWIFT_PACKAGE=1"]
+                    ]
+                ),
+                .release(
+                    name: "Release",
+                    settings: [
+                        "GCC_PREPROCESSOR_DEFINITIONS" : ["FLEXLAYOUT_SWIFT_PACKAGE=1"]
+                    ]
+                )
+            ])
         )
 
         return [mainTarget, testTarget]
