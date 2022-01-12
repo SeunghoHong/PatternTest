@@ -11,10 +11,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        let viewController = MainViewController()
-        viewController.reactor = MainViewReactor()
-        viewController.view.backgroundColor = .white
-        window?.rootViewController = viewController
+
+        UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor : UIColor.clear], for: .normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor : UIColor.clear], for: .highlighted)
+        
+        let mainViewController = MainViewController()
+        mainViewController.reactor = MainViewReactor()
+        mainViewController.view.backgroundColor = .white
+
+        let navigationViewController = UINavigationController(rootViewController: mainViewController)
+        navigationViewController.setNavigationBarHidden(false, animated: false)
+
+        window?.rootViewController = navigationViewController
         window?.makeKeyAndVisible()
 
         return true

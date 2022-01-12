@@ -35,14 +35,24 @@ final class MainViewController: UIViewController, View {
         return label
     }()
 
+    private let profileButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .blue
+        button.setTitle("PROFILE", for: .normal)
+
+        return button
+    }()
+
     var reactor: MainViewReactor?
     var disposeBag = DisposeBag()
-    
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.setup()
+        self.bind()
+
         if let reactor = reactor {
             self.bind(reactor: reactor)
         }
@@ -93,17 +103,52 @@ final class MainViewController: UIViewController, View {
 extension MainViewController {
 
     private func setup() {
-        print(#function)
+        self.title = "Main"
+
         self.view.addSubview(self.plusButton)
         self.view.addSubview(self.minusButton)
         self.view.addSubview(self.valueLabel)
+        self.view.addSubview(self.profileButton)
     }
 
     private func layout() {
         print(#function)
-        self.minusButton.pin.left(16.0).vCenter().sizeToFit()
-        self.plusButton.pin.right(16.0).vCenter().sizeToFit()
-        self.valueLabel.pin.horizontallyBetween(self.minusButton, and: self.plusButton).vCenter().height(20.0)
-//        self.valueLabel.pin.center().sizeToFit(.content)
+        self.minusButton.pin
+            .left(16.0)
+            .vCenter()
+            .sizeToFit()
+
+        self.plusButton.pin
+            .right(16.0)
+            .vCenter()
+            .sizeToFit()
+
+        self.valueLabel.pin
+            .horizontallyBetween(self.minusButton, and: self.plusButton)
+            .vCenter()
+            .height(20.0)
+
+        self.profileButton.pin
+            .below(of: self.valueLabel)
+            .hCenter()
+            .marginTop(32.0)
+            .sizeToFit()
+    }
+
+    private func bind() {
+        self.profileButton.rx.tap
+            .bind { [weak self] _ in
+                self?.navigateToProfile()
+            }
+            .disposed(by: self.disposeBag)
+    }
+}
+
+
+extension MainViewController {
+
+    private func navigateToProfile() {
+        let profileViewController = ProfileViewController()
+        self.navigationController?.pushViewController(profileViewController, animated: true)
     }
 }
